@@ -1,54 +1,230 @@
-# woowa-open-mission-vue-ts
+# 편의점 POS 시스템
 
-This template should help get you started developing with Vue 3 in Vite.
+> 우아한테크코스 8기 프리코스 오픈미션
 
-## Recommended IDE Setup
+## Table of Contents
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1. [Introduction](#introduction)
+2. [Tech Stack](#tech-stack)
+3. [Features](#features)
+4. [기능 예시 (원본 미션 기준)](#기능-예시-원본-미션-기준)
+5. [Getting Started](#getting-started)
+6. [Development Log](#development-log)
 
-## Recommended Browser Setup
+## Introduction
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+[우테코 7기 편의점 미션](https://github.com/woowacourse-precourse/javascript-convenience-store-7)을 Vue.js와 TypeScript로 재구현한 프로젝트이다.
 
-## Type Support for `.vue` Imports in TS
+기존 Console 기반 미션을 **웹 UI 환경**으로 재해석하여, 재고 관리, 프로모션 계산, 영수증 출력 등의 핵심 비즈니스 로직을 모던 프론트엔드 기술 스택으로 구현한다. 콘솔 입출력은 브라우저 화면의 입력 폼과 UI 컴포넌트로 대체되며, 사용자 경험을 향상시킨 인터랙티브한 편의점 POS 시스템을 목표로 한다.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Tech Stack
 
-## Customize configuration
+### Vue 3 (Composition API)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- React보다 학습 곡선이 완만하고, 2주 안에 배우고 구현하기 적합
+- HTML 구조를 그대로 활용할 수 있어 직관적
+- 반응형 데이터 바인딩으로 상태 관리가 간편
 
-## Project Setup
+### TypeScript
 
-```sh
-npm install
+- 타입 시스템으로 런타임 에러를 사전에 방지
+- 복잡한 데이터 구조(상품, 프로모션, 영수증 등)를 안전하게 관리
+- JavaScript 문법 그대로 사용하면서 타입만 추가하는 방식이라 진입 장벽이 낮음
+
+### Vite
+
+- 빠른 개발 서버 (1초 이내 구동)
+- HMR(Hot Module Replacement)로 즉각적인 피드백
+
+### Pinia
+
+- Vue 3 공식 상태 관리 라이브러리
+- 장바구니, 재고 등 전역 상태 관리에 사용 예정
+
+### Vitest
+
+- Vite 기반 테스트 도구
+- 빠른 테스트 실행 속도
+
+## Features
+
+### 1. 상품 관리
+
+- 상품 목록 조회 및 표시
+  - 상품명, 가격, 재고 수량 표시
+  - 프로모션 정보 표시
+  - 재고 없음 상태 표시
+- 프로모션 재고와 일반 재고 구분 관리
+
+### 2. 프로모션 시스템
+
+- **N+1 무료 증정 방식**
+  - 2+1: 2개 구매 시 1개 무료 (콜라, 사이다 등)
+  - 1+1: 1개 구매 시 1개 무료 (오렌지주스, 초코바 등)
+- **프로모션 기간 자동 확인**
+  - 현재 날짜 기준 유효한 프로모션만 적용
+- **지능형 프로모션 안내**
+  - 추가 증정 가능 시 알림 (예: "현재 콜라는 1개를 무료로 더 받을 수 있습니다")
+  - 정가 결제 필요 시 확인 요청 (예: "현재 콜라 4개는 프로모션 할인이 적용되지 않습니다")
+
+### 3. 구매 및 결제
+
+- **다중 상품 구매 지원**
+  - 입력 형식: `[상품명-수량]` (예: `[콜라-3],[사이다-2]`)
+- **멤버십 할인**
+  - 프로모션 미적용 금액의 30% 할인
+  - 최대 할인 한도: 8,000원
+- **실시간 금액 계산**
+  - 총구매액 자동 계산
+  - 행사할인 적용
+  - 멤버십할인 적용
+  - 최종 결제 금액 산출
+
+### 4. 영수증 출력
+
+- 구매 상품 내역 (상품명, 수량, 금액)
+- 증정 상품 목록
+- 할인 내역 상세 표시
+- 최종 결제 금액
+
+**영수증 예시:**
+
+```
+===========W 편의점=============
+상품명        수량    금액
+콜라          3     3,000
+에너지바      5    10,000
+===========증    정=============
+콜라          1
+==============================
+총구매액      8    13,000
+행사할인            -1,000
+멤버십할인          -3,000
+내실돈             9,000
 ```
 
-### Compile and Hot-Reload for Development
+### 5. 재고 관리
 
-```sh
+- **실시간 재고 차감**
+  - 구매 즉시 재고 업데이트
+- **프로모션 재고 우선 사용**
+  - 프로모션 재고 먼저 차감
+  - 부족 시 일반 재고 사용
+- **재고 부족 안내**
+  - 재고 초과 구매 시도 시 에러 메시지 표시
+
+### 6. 추가 기능
+
+- 추가 구매 지원 (영수증 출력 후 재구매 가능)
+- 입력 유효성 검증 및 에러 처리
+- 존재하지 않는 상품 구매 방지
+
+## 기능 예시 (원본 미션 기준)
+
+> 아래는 Console 기반 원본 미션의 실행 예시입니다. 본 프로젝트에서는 동일한 기능을 웹 UI로 구현합니다.
+
+### 1. 상품 목록 표시
+
+```
+안녕하세요. W편의점입니다.
+현재 보유하고 있는 상품입니다.
+
+- 콜라 1,000원 10개 탄산2+1
+- 콜라 1,000원 10개
+- 사이다 1,000원 8개 탄산2+1
+- 사이다 1,000원 7개
+- 오렌지주스 1,800원 9개 MD추천상품
+- 오렌지주스 1,800원 재고 없음
+- 탄산수 1,200원 5개 탄산2+1
+- 탄산수 1,200원 재고 없음
+- 물 500원 10개
+- 비타민워터 1,500원 6개
+- 감자칩 1,500원 5개 반짝할인
+- 감자칩 1,500원 5개
+- 초코바 1,200원 5개 MD추천상품
+- 초코바 1,200원 5개
+- 에너지바 2,000원 5개
+- 정식도시락 6,400원 8개
+- 컵라면 1,700원 1개 MD추천상품
+- 컵라면 1,700원 10개
+```
+
+### 2. 상품 구매
+
+```
+구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])
+[콜라-3],[에너지바-5]
+
+멤버십 할인을 받으시겠습니까? (Y/N)
+Y
+```
+
+### 3. 영수증 출력
+
+```
+===========W 편의점=============
+상품명        수량    금액
+콜라          3     3,000
+에너지바       5    10,000
+===========증    정=============
+콜라          1
+==============================
+총구매액       8    13,000
+행사할인            -1,000
+멤버십할인          -3,000
+내실돈              9,000
+
+감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)
+```
+
+### 4. 프로모션 안내
+
+```
+구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])
+[오렌지주스-1]
+
+현재 오렌지주스은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
+Y
+```
+
+### 5. 정가 결제 안내
+
+```
+구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])
+[콜라-10]
+
+현재 콜라 4개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
+Y
+```
+
+### 6. 에러 처리
+
+```
+[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.
+[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.
+[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.
+[ERROR] 잘못된 입력입니다. 다시 입력해 주세요.
+```
+
+## Getting Started
+
+```bash
+npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+프로덕션 빌드가 필요하면:
 
-```sh
+```bash
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+테스트 실행:
 
-```sh
+```bash
 npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Development Log
 
-```sh
-npm run lint
-```
+프로젝트 진행 과정과 학습 내용은 [devlog](./devlog) 폴더에서 확인할 수 있다.
