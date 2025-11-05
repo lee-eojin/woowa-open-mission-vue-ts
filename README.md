@@ -4,20 +4,20 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Tech Stack](#tech-stack)
-3. [Features](#features)
+1. [프로젝트 소개](#프로젝트-소개)
+2. [기술 스택 및 선정 이유](#기술-스택-및-선정-이유)
+3. [주요 기능](#주요-기능)
 4. [기능 예시 (원본 미션 기준)](#기능-예시-원본-미션-기준)
-5. [Getting Started](#getting-started)
-6. [Development Log](#development-log)
+5. [시작하기](#시작하기)
+6. [개발 로그](#개발-로그)
 
-## Introduction
+## 프로젝트 소개
 
 [우테코 7기 편의점 미션](https://github.com/woowacourse-precourse/javascript-convenience-store-7)을 Vue.js와 TypeScript로 재구현한 프로젝트이다.
 
 기존 Console 기반 미션을 **웹 UI 환경**으로 재해석하여, 재고 관리, 프로모션 계산, 영수증 출력 등의 핵심 비즈니스 로직을 모던 프론트엔드 기술 스택으로 구현한다. 콘솔 입출력은 브라우저 화면의 입력 폼과 UI 컴포넌트로 대체되며, 사용자 경험을 향상시킨 인터랙티브한 편의점 POS 시스템을 목표로 한다.
 
-## Tech Stack
+## 기술 스택 및 선정 이유
 
 ### Vue 3 (Composition API)
 
@@ -46,7 +46,7 @@
 - Vite 기반 테스트 도구
 - 빠른 테스트 실행 속도
 
-## Features
+## 주요 기능
 
 ### 1. 상품 관리
 
@@ -86,22 +86,6 @@
 - 증정 상품 목록
 - 할인 내역 상세 표시
 - 최종 결제 금액
-
-**영수증 예시:**
-
-```
-===========W 편의점=============
-상품명        수량    금액
-콜라          3     3,000
-에너지바      5    10,000
-===========증    정=============
-콜라          1
-==============================
-총구매액      8    13,000
-행사할인            -1,000
-멤버십할인          -3,000
-내실돈             9,000
-```
 
 ### 5. 재고 관리
 
@@ -206,25 +190,21 @@ Y
 [ERROR] 잘못된 입력입니다. 다시 입력해 주세요.
 ```
 
-## Getting Started
+## 시작하기
 
 ```bash
 npm install
 npm run dev
 ```
 
-프로덕션 빌드가 필요하면:
-
 ```bash
 npm run build
 ```
-
-테스트 실행:
 
 ```bash
 npm run test:unit
 ```
 
-## Development Log
+## 개발 로그
 
 프로젝트 진행 과정과 학습 내용은 [devlog](./devlog) 폴더에서 확인할 수 있다.
