@@ -1,6 +1,27 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { onMounted } from 'vue'
+import { parseProducts } from '@/utils/productParser'
+import { parsePromotions } from '@/utils/promotionParser'
+
+async function loadData() {
+  const productsResponse = await fetch('/data/products.md')
+  const productsText = await productsResponse.text()
+  const products = parseProducts(productsText)
+
+  const promotionsResponse = await fetch('/data/promotions.md')
+  const promotionsText = await promotionsResponse.text()
+  const promotions = parsePromotions(promotionsText)
+
+  debugger
+
+  return { products, promotions }
+}
+
+onMounted(async () => {
+  await loadData()
+})
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import type { Promotion } from '@/types'
+import type { Promotion } from '@/domain'
 import { parseCSV } from './csvParser'
 
 function validatePromotionFields(row: Record<string, string>): void {

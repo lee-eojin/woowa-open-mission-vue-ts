@@ -1,4 +1,4 @@
-import type { Product } from '@/types'
+import type { Product } from '@/domain'
 import { parseCSV } from './csvParser'
 
 const NULL_STRING = 'null'
