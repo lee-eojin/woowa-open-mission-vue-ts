@@ -1,5 +1,6 @@
 import { Product } from '@/domain'
 import { CsvParser } from './csvParser'
+import { ERROR_MESSAGES } from '@/constants/errorMessages'
 
 export class ProductParser {
   private static readonly NULL_STRING = 'null'
@@ -21,29 +22,29 @@ export class ProductParser {
 
   private validateFields(row: Record<string, string>): void {
     if (!row.name || row.name.trim() === '') {
-      throw new Error('[ERROR] 상품명이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PRODUCT.MISSING_NAME)
     }
 
     if (!row.price) {
-      throw new Error('[ERROR] 가격이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PRODUCT.MISSING_PRICE)
     }
 
     if (!row.quantity) {
-      throw new Error('[ERROR] 수량이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PRODUCT.MISSING_QUANTITY)
     }
 
     if (!row.promotion) {
-      throw new Error('[ERROR] 프로모션 정보가 없습니다.')
+      throw new Error(ERROR_MESSAGES.PRODUCT.MISSING_PROMOTION)
     }
   }
 
   private validateValues(price: number, quantity: number, rawPrice: string, rawQuantity: string): void {
     if (isNaN(price) || price <= 0) {
-      throw new Error(`[ERROR] 잘못된 가격입니다: ${rawPrice}`)
+      throw new Error(ERROR_MESSAGES.PRODUCT.INVALID_PRICE(rawPrice))
     }
 
     if (isNaN(quantity) || quantity < 0) {
-      throw new Error(`[ERROR] 잘못된 수량입니다: ${rawQuantity}`)
+      throw new Error(ERROR_MESSAGES.PRODUCT.INVALID_QUANTITY(rawQuantity))
     }
   }
 

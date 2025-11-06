@@ -1,5 +1,6 @@
 import { Promotion } from '@/domain'
 import { CsvParser } from './csvParser'
+import { ERROR_MESSAGES } from '@/constants/errorMessages'
 
 export class PromotionParser {
   private readonly csvParser: CsvParser
@@ -20,47 +21,47 @@ export class PromotionParser {
 
   private validateFields(row: Record<string, string>): void {
     if (!row.name || row.name.trim() === '') {
-      throw new Error('[ERROR] 프로모션명이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_NAME)
     }
 
     if (!row.buy) {
-      throw new Error('[ERROR] 구매 수량이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_BUY)
     }
 
     if (!row.get) {
-      throw new Error('[ERROR] 증정 수량이 없습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_GET)
     }
 
     if (!row.start_date) {
-      throw new Error('[ERROR] 시작 날짜가 없습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_START_DATE)
     }
 
     if (!row.end_date) {
-      throw new Error('[ERROR] 종료 날짜가 없습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_END_DATE)
     }
   }
 
   private validateQuantities(buy: number, get: number, rawBuy: string, rawGet: string): void {
     if (isNaN(buy) || buy <= 0) {
-      throw new Error(`[ERROR] 잘못된 구매 수량입니다: ${rawBuy}`)
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_BUY(rawBuy))
     }
 
     if (isNaN(get) || get <= 0) {
-      throw new Error(`[ERROR] 잘못된 증정 수량입니다: ${rawGet}`)
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_GET(rawGet))
     }
   }
 
   private validateDates(startDate: Date, endDate: Date, rawStart: string, rawEnd: string): void {
     if (isNaN(startDate.getTime())) {
-      throw new Error(`[ERROR] 잘못된 시작 날짜입니다: ${rawStart}`)
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_START_DATE(rawStart))
     }
 
     if (isNaN(endDate.getTime())) {
-      throw new Error(`[ERROR] 잘못된 종료 날짜입니다: ${rawEnd}`)
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_END_DATE(rawEnd))
     }
 
     if (startDate > endDate) {
-      throw new Error('[ERROR] 시작 날짜가 종료 날짜보다 늦습니다.')
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_DATE_RANGE)
     }
   }
 

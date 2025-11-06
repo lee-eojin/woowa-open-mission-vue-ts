@@ -1,3 +1,5 @@
+import { ERROR_MESSAGES } from '@/constants/errorMessages'
+
 export class CsvParser {
   parse(csvText: string): Record<string, string>[] {
     const lines = this.splitLines(csvText)
@@ -13,14 +15,14 @@ export class CsvParser {
 
   private validateLines(lines: string[]): void {
     if (lines.length === 0) {
-      throw new Error('[ERROR] CSV 파일이 비어있습니다.')
+      throw new Error(ERROR_MESSAGES.CSV.EMPTY_FILE)
     }
   }
 
   private extractHeaders(lines: string[]): string[] {
     const firstLine = lines[0]
     if (!firstLine) {
-      throw new Error('[ERROR] 헤더가 없습니다.')
+      throw new Error(ERROR_MESSAGES.CSV.MISSING_HEADER)
     }
     return firstLine.split(',')
   }
@@ -36,7 +38,7 @@ export class CsvParser {
     headers.forEach((header, index) => {
       const value = values[index]
       if (value === undefined) {
-        throw new Error(`[ERROR] ${header} 값이 없습니다.`)
+        throw new Error(ERROR_MESSAGES.CSV.MISSING_VALUE(header))
       }
       row[header] = value
     })
