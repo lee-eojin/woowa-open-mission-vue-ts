@@ -2,13 +2,14 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { onMounted } from 'vue'
-import { parseProducts } from '@/utils/productParser'
+import { ProductParser } from '@/utils/productParser'
 import { parsePromotions } from '@/utils/promotionParser'
 
 async function loadData() {
   const productsResponse = await fetch('/data/products.md')
   const productsText = await productsResponse.text()
-  const products = parseProducts(productsText)
+  const productParser = new ProductParser()
+  const products = productParser.parse(productsText)
 
   const promotionsResponse = await fetch('/data/promotions.md')
   const promotionsText = await promotionsResponse.text()
