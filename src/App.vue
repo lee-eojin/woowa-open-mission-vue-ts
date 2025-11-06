@@ -4,6 +4,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import { onMounted } from 'vue'
 import { ProductParser } from '@/utils/productParser'
 import { PromotionParser } from '@/utils/promotionParser'
+import { Inventory } from '@/domain'
 
 async function loadData() {
   const productsResponse = await fetch('/data/products.md')
@@ -16,9 +17,11 @@ async function loadData() {
   const promotionParser = new PromotionParser()
   const promotions = promotionParser.parse(promotionsText)
 
+  const inventory = new Inventory(products)
+
   debugger
 
-  return { products, promotions }
+  return { products, promotions, inventory }
 }
 
 onMounted(async () => {
