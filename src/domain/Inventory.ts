@@ -14,7 +14,7 @@ export class Inventory {
     const map = new Map<string, Product[]>()
 
     products.forEach(product => {
-      const name = product.getName()
+      const name = product.name
       const existing = map.get(name) || []
       map.set(name, [...existing, product])
     })
@@ -29,20 +29,28 @@ export class Inventory {
   getPromotionStock(name: string, promotions: Promotion[]): number {
     const products = this.findByName(name)
     const activePromotions = promotions.filter(p => p.isActive())
-    const activePromotionNames = new Set(activePromotions.map(p => p.getName()))
+    const activePromotionNames = new Set(activePromotions.map(p => p.name))
 
     const promotionProduct = products.find(p =>
-      p.hasPromotion() && activePromotionNames.has(p.getPromotion()!)
+      p.hasPromotion() && activePromotionNames.has(p.promotion!)
     )
 
-    return promotionProduct ? promotionProduct.getQuantity() : 0
+    if (!promotionProduct) {
+      return 0
+    }
+
+    return promotionProduct.quantity
   }
 
   getNormalStock(name: string): number {
     const products = this.findByName(name)
     const normalProduct = products.find(p => !p.hasPromotion())
 
-    return normalProduct ? normalProduct.getQuantity() : 0
+    if (!normalProduct) {
+      return 0
+    }
+
+    return normalProduct.quantity
   }
 
   getTotalStock(name: string, promotions: Promotion[]): number {
