@@ -1,5 +1,5 @@
-import type { Promotion } from '@/domain'
-import { parseCSV } from './csvParser'
+import { Promotion } from '@/domain'
+import { CsvParser } from './csvParser'
 
 function validatePromotionFields(row: Record<string, string>): void {
   if (!row.name || row.name.trim() === '') {
@@ -56,17 +56,12 @@ function createPromotion(row: Record<string, string>): Promotion {
   validatePromotionQuantities(buy, get, row.buy!, row.get!)
   validatePromotionDates(startDate, endDate, row.start_date!, row.end_date!)
 
-  return {
-    name: row.name!,
-    buy,
-    get,
-    startDate,
-    endDate
-  }
+  return new Promotion(row.name!, buy, get, startDate, endDate)
 }
 
 export function parsePromotions(csvText: string): Promotion[] {
-  const rawData = parseCSV(csvText)
+  const csvParser = new CsvParser()
+  const rawData = csvParser.parse(csvText)
 
   return rawData.map((row) => {
     validatePromotionFields(row)

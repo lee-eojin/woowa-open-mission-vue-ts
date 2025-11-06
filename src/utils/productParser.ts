@@ -1,5 +1,5 @@
-import type { Product } from '@/domain'
-import { parseCSV } from './csvParser'
+import { Product } from '@/domain'
+import { CsvParser } from './csvParser'
 
 const NULL_STRING = 'null'
 
@@ -44,16 +44,17 @@ function createProduct(row: Record<string, string>): Product {
 
   validateProductValues(price, quantity, row.price!, row.quantity!)
 
-  return {
-    name: row.name!,
+  return new Product(
+    row.name!,
     price,
     quantity,
-    promotion: convertPromotionStringToNullable(row.promotion!)
-  }
+    convertPromotionStringToNullable(row.promotion!)
+  )
 }
 
 export function parseProducts(csvText: string): Product[] {
-  const rawData = parseCSV(csvText)
+  const csvParser = new CsvParser()
+  const rawData = csvParser.parse(csvText)
 
   return rawData.map((row) => {
     validateProductFields(row)

@@ -1,18 +1,35 @@
-export function parseCSV(csvText: string): Record<string, string>[] {
-  const lines = csvText.trim().split('\n').filter(line => line.length > 0)
+export class CsvParser {
+  parse(csvText: string): Record<string, string>[] {
+    const lines = this.splitLines(csvText)
+    this.validateLines(lines)
 
-  if (lines.length === 0) {
-    throw new Error('[ERROR] CSV 파일이 비어있습니다.')
+    const headers = this.extractHeaders(lines)
+    return this.parseDataRows(lines, headers)
   }
 
-  const firstLine = lines[0]
-  if (!firstLine) {
-    throw new Error('[ERROR] 헤더가 없습니다.')
+  private splitLines(csvText: string): string[] {
+    return csvText.trim().split('\n').filter(line => line.length > 0)
   }
 
-  const headers = firstLine.split(',')
+  private validateLines(lines: string[]): void {
+    if (lines.length === 0) {
+      throw new Error('[ERROR] CSV 파일이 비어있습니다.')
+    }
+  }
 
-  return lines.slice(1).map((line) => {
+  private extractHeaders(lines: string[]): string[] {
+    const firstLine = lines[0]
+    if (!firstLine) {
+      throw new Error('[ERROR] 헤더가 없습니다.')
+    }
+    return firstLine.split(',')
+  }
+
+  private parseDataRows(lines: string[], headers: string[]): Record<string, string>[] {
+    return lines.slice(1).map((line) => this.parseRow(line, headers))
+  }
+
+  private parseRow(line: string, headers: string[]): Record<string, string> {
     const values = line.split(',')
     const row: Record<string, string> = {}
 
@@ -25,5 +42,5 @@ export function parseCSV(csvText: string): Record<string, string>[] {
     })
 
     return row
-  })
+  }
 }
