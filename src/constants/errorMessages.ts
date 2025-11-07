@@ -23,5 +23,9 @@ export const ERROR_MESSAGES = {
     INVALID_START_DATE: (value: string) => `[ERROR] 잘못된 시작 날짜입니다: ${value}`,
     INVALID_END_DATE: (value: string) => `[ERROR] 잘못된 종료 날짜입니다: ${value}`,
     INVALID_DATE_RANGE: '[ERROR] 시작 날짜가 종료 날짜보다 늦습니다.'
+  },
+  INVENTORY: {
+    INSUFFICIENT_STOCK: (name: string, requested: number) =>
+      `[ERROR] 재고가 부족합니다. 상품: ${name}, 요청 수량: ${requested}`
   }
 } as const

@@ -1,5 +1,6 @@
 import { Product } from './Product'
 import { Promotion } from './Promotion'
+import { ERROR_MESSAGES } from '@/constants/errorMessages'
 
 export class Inventory {
   private readonly products: Product[]
@@ -59,6 +60,12 @@ export class Inventory {
 
   hasEnoughStock(name: string, quantity: number, promotions: Promotion[]): boolean {
     return this.getTotalStock(name, promotions) >= quantity
+  }
+
+  validateStock(name: string, quantity: number, promotions: Promotion[]): void {
+    if (!this.hasEnoughStock(name, quantity, promotions)) {
+      throw new Error(ERROR_MESSAGES.INVENTORY.INSUFFICIENT_STOCK(name, quantity))
+    }
   }
 
   getAllProductNames(): string[] {
