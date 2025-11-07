@@ -11,15 +11,4 @@ export class CartItem {
   getTotalPrice(): number {
     return this.product.price * this.quantity
   }
-
-  getPromotionDiscount(): number {
-    if (!this.promotion) return 0
-
-    const promotionSets = Math.floor(this.quantity / this.promotion.getTotalQuantity())
-    return promotionSets * this.promotion.get * this.product.price
-  }
-
-  getFinalPrice(): number {
-    return this.getTotalPrice() - this.getPromotionDiscount()
-  }
 }

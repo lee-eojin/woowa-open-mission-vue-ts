@@ -58,7 +58,10 @@ export class Cart {
   }
 
   getPromotionDiscount(): number {
-    return this.getItems().reduce((sum, item) => sum + item.getPromotionDiscount(), 0)
+    return this.getItems().reduce((sum, item) => {
+      if (!item.promotion) return sum
+      return sum + item.promotion.calculateDiscount(item.product, item.quantity)
+    }, 0)
   }
 
   getFinalPrice(): number {

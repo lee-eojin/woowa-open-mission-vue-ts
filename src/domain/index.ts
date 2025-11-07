@@ -1,3 +1,6 @@
 export { Product } from './Product'
 export { Promotion } from './Promotion'
 export { Inventory } from './Inventory'
+export { Cart } from './Cart'
+export { CartItem } from './CartItem'
+export { PromotionPolicy } from './PromotionPolicy'

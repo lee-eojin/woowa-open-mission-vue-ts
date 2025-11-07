@@ -1,3 +1,5 @@
+import { Product } from './Product'
+
 export class Promotion {
   constructor(
     public readonly name: string,
@@ -13,5 +15,10 @@ export class Promotion {
 
   getTotalQuantity(): number {
     return this.buy + this.get
+  }
+
+  calculateDiscount(product: Product, quantity: number): number {
+    const promotionSets = Math.floor(quantity / this.getTotalQuantity())
+    return promotionSets * this.get * product.price
   }
 }
