@@ -27,5 +27,8 @@ export const ERROR_MESSAGES = {
   INVENTORY: {
     INSUFFICIENT_STOCK: (name: string, requested: number) =>
       `[ERROR] 재고가 부족합니다. 상품: ${name}, 요청 수량: ${requested}`
+  },
+  CART: {
+    ITEM_NOT_FOUND: (name: string) => `[ERROR] 장바구니에 없는 상품입니다: ${name}`
   }
 } as const
