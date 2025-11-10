@@ -75,25 +75,4 @@ export class Inventory {
   exists(name: string): boolean {
     return this.productMap.has(name)
   }
-
-  canGetAdditionalFreeItem(name: string, quantity: number, promotion: Promotion, promotions: Promotion[]): boolean {
-    const promotionStock = this.getPromotionStock(name, promotions)
-    const setQuantity = promotion.getTotalQuantity()
-    const remainder = quantity % setQuantity
-
-    if (remainder !== promotion.buy) {
-      return false
-    }
-
-    return promotionStock >= quantity + promotion.get
-  }
-
-  calculateFullPriceQuantity(name: string, quantity: number, promotion: Promotion, promotions: Promotion[]): number {
-    const promotionStock = this.getPromotionStock(name, promotions)
-    const setQuantity = promotion.getTotalQuantity()
-    const maxSets = Math.floor(promotionStock / setQuantity)
-    const maxPromotionQuantity = maxSets * setQuantity
-
-    return Math.max(0, quantity - maxPromotionQuantity)
-  }
 }
