@@ -9,10 +9,12 @@ export class Cart {
   private items: Map<string, CartItem>
   private promotionPolicy: PromotionPolicy
   private promotions: Promotion[]
+  private inventory: Inventory
 
-  constructor(promotions: Promotion[]) {
+  constructor(promotions: Promotion[], inventory: Inventory) {
     this.items = new Map()
     this.promotions = promotions
+    this.inventory = inventory
     this.promotionPolicy = new PromotionPolicy(promotions)
   }
 

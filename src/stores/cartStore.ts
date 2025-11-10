@@ -11,8 +11,8 @@ export const useCartStore = defineStore('cart', () => {
   const inventory = shallowRef<Inventory | null>(null)
 
   const initialize = (products: Product[], promotions: Promotion[]) => {
-    cart.value = new Cart(promotions)
     inventory.value = new Inventory(products)
+    cart.value = new Cart(promotions, inventory.value)
   }
 
   const addItem = (product: Product, quantity: number) => {
