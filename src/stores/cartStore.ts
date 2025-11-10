@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import { defineStore } from 'pinia'
 import { Cart } from '@/domain/Cart'
 import { Inventory } from '@/domain/Inventory'
@@ -7,8 +7,8 @@ import { Promotion } from '@/domain/Promotion'
 import { CartItem } from '@/domain/CartItem'
 
 export const useCartStore = defineStore('cart', () => {
-  const cart = ref<Cart | null>(null)
-  const inventory = ref<Inventory | null>(null)
+  const cart = shallowRef<Cart | null>(null)
+  const inventory = shallowRef<Inventory | null>(null)
 
   const initialize = (products: Product[], promotions: Promotion[]) => {
     cart.value = new Cart(promotions)
