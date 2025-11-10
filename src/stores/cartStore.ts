@@ -20,7 +20,7 @@ export const useCartStore = defineStore('cart', () => {
       throw new Error('Cart or Inventory not initialized')
     }
 
-    cart.value.addItem(product, quantity, inventory.value)
+    cart.value.addItem(product, quantity)
   }
 
   const removeItem = (productName: string) => {
@@ -36,7 +36,7 @@ export const useCartStore = defineStore('cart', () => {
       throw new Error('Cart or Inventory not initialized')
     }
 
-    cart.value.updateQuantity(productName, quantity, inventory.value)
+    cart.value.updateQuantity(productName, quantity)
   }
 
   const clear = () => {

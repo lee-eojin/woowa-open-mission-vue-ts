@@ -18,12 +18,8 @@ export class Cart {
     this.promotionPolicy = new PromotionPolicy(promotions)
   }
 
-  addItem(
-    product: Product,
-    quantity: number,
-    inventory: Inventory
-  ): void {
-    inventory.validateStock(product.name, quantity, this.promotions)
+  addItem(product: Product, quantity: number): void {
+    this.inventory.validateStock(product.name, quantity, this.promotions)
 
     const activePromotion = this.promotionPolicy.findApplicablePromotion(product)
     const cartItem = new CartItem(product, quantity, activePromotion)
@@ -34,17 +30,13 @@ export class Cart {
     this.items.delete(productName)
   }
 
-  updateQuantity(
-    productName: string,
-    quantity: number,
-    inventory: Inventory
-  ): void {
+  updateQuantity(productName: string, quantity: number): void {
     const item = this.items.get(productName)
     if (!item) {
       throw new Error(ERROR_MESSAGES.CART.ITEM_NOT_FOUND(productName))
     }
 
-    inventory.validateStock(productName, quantity, this.promotions)
+    this.inventory.validateStock(productName, quantity, this.promotions)
 
     const activePromotion = this.promotionPolicy.findApplicablePromotion(item.product)
     const updatedItem = new CartItem(item.product, quantity, activePromotion)
