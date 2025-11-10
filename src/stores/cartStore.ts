@@ -1,4 +1,4 @@
-import { ref, computed, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { defineStore } from 'pinia'
 import { Cart } from '@/domain/Cart'
 import { Inventory } from '@/domain/Inventory'
