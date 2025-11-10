@@ -42,6 +42,7 @@ const isPromotionActive = (product: Product): boolean => {
           <th>가격</th>
           <th>재고</th>
           <th>프로모션</th>
+          <th>액션</th>
         </tr>
       </thead>
       <tbody>
@@ -58,9 +59,7 @@ const isPromotionActive = (product: Product): boolean => {
 
 <style scoped>
 .product-list {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 0;
 }
 
 h2 {
