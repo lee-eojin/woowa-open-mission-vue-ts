@@ -15,7 +15,7 @@ export class Cart {
     this.items = new Map()
     this.promotions = promotions
     this.inventory = inventory
-    this.promotionPolicy = new PromotionPolicy(promotions)
+    this.promotionPolicy = new PromotionPolicy(promotions, inventory)
   }
 
   addItem(product: Product, quantity: number): void {
