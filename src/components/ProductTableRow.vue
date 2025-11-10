@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
+import { ref, computed, type PropType } from 'vue'
 import PromotionBadge from './PromotionBadge.vue'
 import { Product } from '@/domain/Product'
+import { useCartStore } from '@/stores/cartStore'
 
 const props = defineProps({
   product: {
@@ -13,6 +14,9 @@ const props = defineProps({
     required: true
   }
 })
+
+const cartStore = useCartStore()
+const quantity = ref(1)
 
 const isOutOfStock = computed(() => props.product.quantity === 0)
 
@@ -26,6 +30,18 @@ const getStockText = (quantity: number): string => {
   }
   return `${quantity}개`
 }
+
+const addToCart = () => {
+  try {
+    cartStore.addItem(props.product, quantity.value)
+    alert(`${props.product.name} ${quantity.value}개를 장바구니에 담았습니다!`)
+    quantity.value = 1
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+    }
+  }
+}
 </script>
 
 <template>
@@ -38,6 +54,19 @@ const getStockText = (quantity: number): string => {
         :promotion-name="product.promotion"
         :is-active="isPromotionActive"
       />
+    </td>
+    <td class="product-actions">
+      <div v-if="!isOutOfStock" class="add-to-cart-container">
+        <input
+          v-model.number="quantity"
+          type="number"
+          min="1"
+          :max="product.quantity"
+          class="quantity-input"
+        />
+        <button @click="addToCart" class="add-to-cart-button">담기</button>
+      </div>
+      <span v-else class="sold-out">품절</span>
     </td>
   </tr>
 </template>
@@ -87,5 +116,51 @@ td {
 .out-of-stock .product-price,
 .out-of-stock .product-quantity {
   color: #999;
+}
+
+.product-actions {
+  text-align: center;
+}
+
+.add-to-cart-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 0.4rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.add-to-cart-button {
+  padding: 0.5rem 1rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.add-to-cart-button:hover {
+  background: #059669;
+}
+
+.sold-out {
+  color: #ef4444;
+  font-weight: 500;
 }
 </style>
