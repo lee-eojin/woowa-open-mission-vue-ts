@@ -69,4 +69,12 @@ export class Cart {
   clear(): void {
     this.items.clear()
   }
+
+  canGetAdditionalFreeItem(product: Product, quantity: number): boolean {
+    return this.promotionPolicy.canGetAdditionalFreeItem(product, quantity)
+  }
+
+  calculateFullPriceQuantity(product: Product, quantity: number): number {
+    return this.promotionPolicy.calculateFullPriceQuantity(product, quantity)
+  }
 }

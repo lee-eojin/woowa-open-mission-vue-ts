@@ -72,6 +72,22 @@ export const useCartStore = defineStore('cart', () => {
     return cart.value.isEmpty()
   })
 
+  const canGetAdditionalFreeItem = (product: Product, quantity: number): boolean => {
+    if (!cart.value) {
+      throw new Error('Cart not initialized')
+    }
+
+    return cart.value.canGetAdditionalFreeItem(product, quantity)
+  }
+
+  const calculateFullPriceQuantity = (product: Product, quantity: number): number => {
+    if (!cart.value) {
+      throw new Error('Cart not initialized')
+    }
+
+    return cart.value.calculateFullPriceQuantity(product, quantity)
+  }
+
   return {
     initialize,
     addItem,
@@ -82,6 +98,8 @@ export const useCartStore = defineStore('cart', () => {
     totalPrice,
     promotionDiscount,
     finalPrice,
-    isEmpty
+    isEmpty,
+    canGetAdditionalFreeItem,
+    calculateFullPriceQuantity
   }
 })
