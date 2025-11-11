@@ -5,6 +5,7 @@ import { Inventory } from '@/domain/Inventory'
 import { Product } from '@/domain/Product'
 import { Promotion } from '@/domain/Promotion'
 import { CartItem } from '@/domain/CartItem'
+import { ERROR_MESSAGES } from '@/constants/errorMessages'
 
 export const useCartStore = defineStore('cart', () => {
   const cart = ref<Cart | null>(null)
@@ -17,7 +18,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const addItem = (product: Product, quantity: number) => {
     if (!cart.value || !inventory.value) {
-      throw new Error('Cart or Inventory not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_OR_INVENTORY_NOT_INITIALIZED)
     }
 
     cart.value.addItem(product, quantity)
@@ -25,7 +26,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const removeItem = (productName: string) => {
     if (!cart.value) {
-      throw new Error('Cart not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
     }
 
     cart.value.removeItem(productName)
@@ -33,7 +34,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const updateQuantity = (productName: string, quantity: number) => {
     if (!cart.value || !inventory.value) {
-      throw new Error('Cart or Inventory not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_OR_INVENTORY_NOT_INITIALIZED)
     }
 
     cart.value.updateQuantity(productName, quantity)
@@ -41,7 +42,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const clear = () => {
     if (!cart.value) {
-      throw new Error('Cart not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
     }
 
     cart.value.clear()
@@ -74,7 +75,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const canGetAdditionalFreeItem = (product: Product, quantity: number): boolean => {
     if (!cart.value) {
-      throw new Error('Cart not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
     }
 
     return cart.value.canGetAdditionalFreeItem(product, quantity)
@@ -82,7 +83,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const calculateFullPriceQuantity = (product: Product, quantity: number): number => {
     if (!cart.value) {
-      throw new Error('Cart not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
     }
 
     return cart.value.calculateFullPriceQuantity(product, quantity)
@@ -90,7 +91,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const findApplicablePromotion = (product: Product): Promotion | null => {
     if (!cart.value) {
-      throw new Error('Cart not initialized')
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
     }
 
     return cart.value.findApplicablePromotion(product)

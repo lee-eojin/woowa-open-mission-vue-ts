@@ -33,7 +33,7 @@ export class Cart {
   updateQuantity(productName: string, quantity: number): void {
     const item = this.items.get(productName)
     if (!item) {
-      throw new Error(ERROR_MESSAGES.CART.ITEM_NOT_FOUND(productName))
+      throw new Error(ERROR_MESSAGES.CART.ITEM_NOT_FOUND_IN_CART(productName))
     }
 
     this.inventory.validateStock(productName, quantity, this.promotions)

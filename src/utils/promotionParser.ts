@@ -25,11 +25,11 @@ export class PromotionParser {
     }
 
     if (!row.buy) {
-      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_BUY)
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_BUY_QUANTITY)
     }
 
     if (!row.get) {
-      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_GET)
+      throw new Error(ERROR_MESSAGES.PROMOTION.MISSING_GET_QUANTITY)
     }
 
     if (!row.start_date) {
@@ -43,11 +43,11 @@ export class PromotionParser {
 
   private validateQuantities(buy: number, get: number, rawBuy: string, rawGet: string): void {
     if (isNaN(buy) || buy <= 0) {
-      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_BUY(rawBuy))
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_BUY_QUANTITY(rawBuy))
     }
 
     if (isNaN(get) || get <= 0) {
-      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_GET(rawGet))
+      throw new Error(ERROR_MESSAGES.PROMOTION.INVALID_GET_QUANTITY(rawGet))
     }
   }
 
