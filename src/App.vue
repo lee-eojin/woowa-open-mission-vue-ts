@@ -7,18 +7,20 @@ import { PromotionParser } from '@/utils/promotionParser'
 import { Product } from '@/domain/Product'
 import { Promotion } from '@/domain/Promotion'
 import { useCartStore } from '@/stores/cartStore'
+import { UI_MESSAGES } from '@/constants/uiMessages'
+import { CONSTANTS } from '@/constants/constants'
 
 const products = ref<Product[]>([])
 const promotions = ref<Promotion[]>([])
 const cartStore = useCartStore()
 
 async function loadData() {
-  const productsResponse = await fetch('/data/products.md')
+  const productsResponse = await fetch(CONSTANTS.CONFIG.DATA_PATH.PRODUCTS_FILE)
   const productsText = await productsResponse.text()
   const productParser = new ProductParser()
   products.value = productParser.parse(productsText)
 
-  const promotionsResponse = await fetch('/data/promotions.md')
+  const promotionsResponse = await fetch(CONSTANTS.CONFIG.DATA_PATH.PROMOTIONS_FILE)
   const promotionsText = await promotionsResponse.text()
   const promotionParser = new PromotionParser()
   promotions.value = promotionParser.parse(promotionsText)
@@ -33,7 +35,7 @@ onMounted(async () => {
 
 <template>
   <main>
-    <h1>W 편의점</h1>
+    <h1>{{ UI_MESSAGES.APP.STORE_NAME }}</h1>
 
     <div class="container">
       <ProductList v-if="products.length > 0" :products="products" :promotions="promotions" />

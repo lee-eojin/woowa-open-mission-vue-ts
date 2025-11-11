@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cartStore'
+import { UI_MESSAGES } from '@/constants/uiMessages'
+import { CONSTANTS } from '@/constants/constants'
 
 const cartStore = useCartStore()
 
 const formatPrice = (price: number): string => {
-  return price.toLocaleString('ko-KR')
+  return price.toLocaleString(CONSTANTS.CONFIG.LOCALE.DEFAULT_LOCALE)
 }
 
 const removeItem = (productName: string) => {
-  if (confirm(`${productName}을(를) 장바구니에서 제거하시겠습니까?`)) {
+  if (confirm(UI_MESSAGES.CART.REMOVE_CONFIRM_MESSAGE(productName))) {
     cartStore.removeItem(productName)
   }
 }
@@ -16,10 +18,10 @@ const removeItem = (productName: string) => {
 
 <template>
   <div class="cart-summary">
-    <h2>장바구니</h2>
+    <h2>{{ UI_MESSAGES.CART.CART_TITLE }}</h2>
 
     <div v-if="cartStore.isEmpty" class="empty-cart">
-      <p>장바구니가 비어있습니다.</p>
+      <p>{{ UI_MESSAGES.CART.EMPTY_CART_MESSAGE }}</p>
     </div>
 
     <div v-else class="cart-content">
@@ -27,31 +29,31 @@ const removeItem = (productName: string) => {
         <div v-for="item in cartStore.items" :key="item.product.name" class="cart-item">
           <div class="item-info">
             <span class="item-name">{{ item.product.name }}</span>
-            <span class="item-quantity">{{ item.quantity }}개</span>
+            <span class="item-quantity">{{ item.quantity }}{{ UI_MESSAGES.COMMON.QUANTITY_UNIT }}</span>
           </div>
           <div class="item-actions">
-            <span class="item-price">{{ formatPrice(item.getTotalPrice()) }}원</span>
-            <button @click="removeItem(item.product.name)" class="remove-button">삭제</button>
+            <span class="item-price">{{ formatPrice(item.getTotalPrice()) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+            <button @click="removeItem(item.product.name)" class="remove-button">{{ UI_MESSAGES.CART.REMOVE_BUTTON_TEXT }}</button>
           </div>
         </div>
       </div>
 
       <div class="cart-summary-info">
         <div class="summary-row">
-          <span>총 금액</span>
-          <span class="summary-value">{{ formatPrice(cartStore.totalPrice) }}원</span>
+          <span>{{ UI_MESSAGES.CART.TOTAL_PRICE_LABEL }}</span>
+          <span class="summary-value">{{ formatPrice(cartStore.totalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
         </div>
         <div v-if="cartStore.promotionDiscount > 0" class="summary-row discount">
-          <span>프로모션 할인</span>
-          <span class="summary-value">-{{ formatPrice(cartStore.promotionDiscount) }}원</span>
+          <span>{{ UI_MESSAGES.CART.PROMOTION_DISCOUNT_LABEL }}</span>
+          <span class="summary-value">-{{ formatPrice(cartStore.promotionDiscount) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
         </div>
         <div class="summary-row final">
-          <span>최종 금액</span>
-          <span class="summary-value">{{ formatPrice(cartStore.finalPrice) }}원</span>
+          <span>{{ UI_MESSAGES.CART.FINAL_PRICE_LABEL }}</span>
+          <span class="summary-value">{{ formatPrice(cartStore.finalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
         </div>
       </div>
 
-      <button class="checkout-button">결제하기</button>
+      <button class="checkout-button">{{ UI_MESSAGES.CART.CHECKOUT_BUTTON_TEXT }}</button>
     </div>
   </div>
 </template>

@@ -22,6 +22,9 @@ export const UI_MESSAGES = {
     ADD_SUCCESS_MESSAGE: (productName: string, quantity: number) =>
       `${productName} ${quantity}개를 장바구니에 담았습니다!`
   },
+  PRODUCT_LIST: {
+    LIST_HEADER: '현재 보유하고 있는 상품입니다.'
+  },
   CART: {
     CART_TITLE: '장바구니',
     EMPTY_CART_MESSAGE: '장바구니가 비어있습니다.',

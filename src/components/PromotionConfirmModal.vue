@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseModal from './BaseModal.vue'
+import { UI_MESSAGES } from '@/constants/uiMessages'
 
 interface Props {
   isOpen: boolean
@@ -18,9 +19,9 @@ const emit = defineEmits<Emits>()
 
 const getMessage = (): string => {
   if (props.type === 'additional-free') {
-    return `현재 ${props.productName}은(는) ${props.quantity}개를 무료로 더 받을 수 있습니다. 추가하시겠습니까?`
+    return UI_MESSAGES.PROMOTION_MODAL.ADDITIONAL_FREE_OFFER_MESSAGE(props.productName, props.quantity)
   } else {
-    return `현재 ${props.productName} ${props.quantity}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까?`
+    return UI_MESSAGES.PROMOTION_MODAL.FULL_PRICE_WARNING_MESSAGE(props.productName, props.quantity)
   }
 }
 
@@ -36,7 +37,7 @@ const handleCancel = () => {
 <template>
   <BaseModal
     :isOpen="isOpen"
-    title="프로모션 안내"
+    :title="UI_MESSAGES.PROMOTION_MODAL.MODAL_TITLE"
     :closeOnBackdrop="false"
     :closeOnEsc="false"
     @close="handleCancel"
@@ -47,10 +48,10 @@ const handleCancel = () => {
 
     <template #footer>
       <button @click="handleCancel" class="button button-secondary">
-        아니오
+        {{ UI_MESSAGES.COMMON.CANCEL_TEXT }}
       </button>
       <button @click="handleConfirm" class="button button-primary">
-        예
+        {{ UI_MESSAGES.COMMON.CONFIRM_TEXT }}
       </button>
     </template>
   </BaseModal>

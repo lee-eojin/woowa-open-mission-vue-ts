@@ -3,6 +3,7 @@ import { computed, type PropType } from 'vue'
 import ProductTableRow from './ProductTableRow.vue'
 import { Product } from '@/domain/Product'
 import { Promotion } from '@/domain/Promotion'
+import { UI_MESSAGES } from '@/constants/uiMessages'
 
 const props = defineProps({
   products: {
@@ -33,7 +34,7 @@ const isPromotionActive = (product: Product): boolean => {
 
 <template>
   <div class="product-list">
-    <h2>현재 보유하고 있는 상품입니다.</h2>
+    <h2>{{ UI_MESSAGES.PRODUCT_LIST.LIST_HEADER }}</h2>
 
     <table class="product-table">
       <thead>

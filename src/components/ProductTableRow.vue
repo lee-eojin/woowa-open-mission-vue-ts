@@ -4,6 +4,8 @@ import PromotionBadge from './PromotionBadge.vue'
 import PromotionConfirmModal from './PromotionConfirmModal.vue'
 import { Product } from '@/domain/Product'
 import { useCartStore } from '@/stores/cartStore'
+import { UI_MESSAGES } from '@/constants/uiMessages'
+import { CONSTANTS } from '@/constants/constants'
 
 const props = defineProps({
   product: {
@@ -17,24 +19,24 @@ const props = defineProps({
 })
 
 const cartStore = useCartStore()
-const quantity = ref(1)
+const quantity = ref<number>(CONSTANTS.DEFAULT_VALUES.QUANTITY.INITIAL_QUANTITY)
 
 const isModalOpen = ref(false)
 const modalType = ref<'additional-free' | 'full-price'>('additional-free')
-const modalQuantity = ref(0)
-const pendingQuantity = ref(0)
+const modalQuantity = ref<number>(CONSTANTS.DEFAULT_VALUES.QUANTITY.ZERO_QUANTITY)
+const pendingQuantity = ref<number>(CONSTANTS.DEFAULT_VALUES.QUANTITY.ZERO_QUANTITY)
 
-const isOutOfStock = computed(() => props.product.quantity === 0)
+const isOutOfStock = computed(() => props.product.quantity === CONSTANTS.DEFAULT_VALUES.QUANTITY.ZERO_QUANTITY)
 
 const formatPrice = (price: number): string => {
-  return price.toLocaleString('ko-KR')
+  return price.toLocaleString(CONSTANTS.CONFIG.LOCALE.DEFAULT_LOCALE)
 }
 
 const getStockText = (quantity: number): string => {
-  if (quantity === 0) {
-    return '재고 없음'
+  if (quantity === CONSTANTS.DEFAULT_VALUES.QUANTITY.ZERO_QUANTITY) {
+    return UI_MESSAGES.PRODUCT.OUT_OF_STOCK_TEXT
   }
-  return `${quantity}개`
+  return `${quantity}${UI_MESSAGES.COMMON.QUANTITY_UNIT}`
 }
 
 const addToCart = () => {
@@ -62,8 +64,8 @@ const addToCart = () => {
     }
 
     cartStore.addItem(props.product, quantity.value)
-    alert(`${props.product.name} ${quantity.value}개를 장바구니에 담았습니다!`)
-    quantity.value = 1
+    alert(UI_MESSAGES.PRODUCT.ADD_SUCCESS_MESSAGE(props.product.name, quantity.value))
+    quantity.value = CONSTANTS.DEFAULT_VALUES.QUANTITY.INITIAL_QUANTITY
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -80,8 +82,8 @@ const handleModalConfirm = () => {
     }
 
     cartStore.addItem(props.product, finalQuantity)
-    alert(`${props.product.name} ${finalQuantity}개를 장바구니에 담았습니다!`)
-    quantity.value = 1
+    alert(UI_MESSAGES.PRODUCT.ADD_SUCCESS_MESSAGE(props.product.name, finalQuantity))
+    quantity.value = CONSTANTS.DEFAULT_VALUES.QUANTITY.INITIAL_QUANTITY
     isModalOpen.value = false
   } catch (error) {
     if (error instanceof Error) {
@@ -95,8 +97,8 @@ const handleModalCancel = () => {
   if (modalType.value === 'additional-free') {
     try {
       cartStore.addItem(props.product, pendingQuantity.value)
-      alert(`${props.product.name} ${pendingQuantity.value}개를 장바구니에 담았습니다!`)
-      quantity.value = 1
+      alert(UI_MESSAGES.PRODUCT.ADD_SUCCESS_MESSAGE(props.product.name, pendingQuantity.value))
+      quantity.value = CONSTANTS.DEFAULT_VALUES.QUANTITY.INITIAL_QUANTITY
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message)
@@ -110,7 +112,7 @@ const handleModalCancel = () => {
 <template>
   <tr :class="{ 'out-of-stock': isOutOfStock }">
     <td class="product-name">{{ product.name }}</td>
-    <td class="product-price">{{ formatPrice(product.price) }}원</td>
+    <td class="product-price">{{ formatPrice(product.price) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</td>
     <td class="product-quantity">{{ getStockText(product.quantity) }}</td>
     <td class="product-promotion">
       <PromotionBadge
@@ -123,13 +125,13 @@ const handleModalCancel = () => {
         <input
           v-model.number="quantity"
           type="number"
-          min="1"
+          :min="CONSTANTS.DEFAULT_VALUES.QUANTITY.MIN_QUANTITY"
           :max="product.quantity"
           class="quantity-input"
         />
-        <button @click="addToCart" class="add-to-cart-button">담기</button>
+        <button @click="addToCart" class="add-to-cart-button">{{ UI_MESSAGES.PRODUCT.ADD_TO_CART_BUTTON_TEXT }}</button>
       </div>
-      <span v-else class="sold-out">품절</span>
+      <span v-else class="sold-out">{{ UI_MESSAGES.PRODUCT.SOLD_OUT_TEXT }}</span>
     </td>
   </tr>
 
