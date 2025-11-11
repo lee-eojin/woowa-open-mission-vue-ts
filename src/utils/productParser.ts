@@ -1,7 +1,7 @@
 import { Product } from '@/domain'
 import { CsvParser } from './csvParser'
 import { ERROR_MESSAGES } from '@/constants/errorMessages'
-import { NULL_STRING } from '@/constants/validationRules'
+import { CONSTANTS } from '@/constants/constants'
 
 export class ProductParser {
   private readonly csvParser: CsvParser
@@ -49,7 +49,7 @@ export class ProductParser {
   }
 
   private convertPromotionStringToNullable(promotionString: string): string | null {
-    if (promotionString === NULL_STRING) {
+    if (promotionString === CONSTANTS.VALIDATION.NULL_STRING) {
       return null
     }
     return promotionString
