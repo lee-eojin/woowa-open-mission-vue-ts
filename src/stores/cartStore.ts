@@ -88,6 +88,14 @@ export const useCartStore = defineStore('cart', () => {
     return cart.value.calculateFullPriceQuantity(product, quantity)
   }
 
+  const findApplicablePromotion = (product: Product): Promotion | null => {
+    if (!cart.value) {
+      throw new Error('Cart not initialized')
+    }
+
+    return cart.value.findApplicablePromotion(product)
+  }
+
   return {
     initialize,
     addItem,
@@ -100,6 +108,7 @@ export const useCartStore = defineStore('cart', () => {
     finalPrice,
     isEmpty,
     canGetAdditionalFreeItem,
-    calculateFullPriceQuantity
+    calculateFullPriceQuantity,
+    findApplicablePromotion
   }
 })

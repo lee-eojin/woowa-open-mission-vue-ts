@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, type PropType } from 'vue'
 import PromotionBadge from './PromotionBadge.vue'
+import PromotionConfirmModal from './PromotionConfirmModal.vue'
 import { Product } from '@/domain/Product'
 import { useCartStore } from '@/stores/cartStore'
 
@@ -18,6 +19,11 @@ const props = defineProps({
 const cartStore = useCartStore()
 const quantity = ref(1)
 
+const isModalOpen = ref(false)
+const modalType = ref<'additional-free' | 'full-price'>('additional-free')
+const modalQuantity = ref(0)
+const pendingQuantity = ref(0)
+
 const isOutOfStock = computed(() => props.product.quantity === 0)
 
 const formatPrice = (price: number): string => {
@@ -33,6 +39,28 @@ const getStockText = (quantity: number): string => {
 
 const addToCart = () => {
   try {
+    pendingQuantity.value = quantity.value
+
+    if (props.isPromotionActive) {
+      const canGetFree = cartStore.canGetAdditionalFreeItem(props.product, quantity.value)
+      if (canGetFree) {
+        const promotion = cartStore.findApplicablePromotion(props.product)
+        const freeQuantity = promotion?.get || 1
+        modalType.value = 'additional-free'
+        modalQuantity.value = freeQuantity
+        isModalOpen.value = true
+        return
+      }
+
+      const fullPriceQty = cartStore.calculateFullPriceQuantity(props.product, quantity.value)
+      if (fullPriceQty > 0) {
+        modalType.value = 'full-price'
+        modalQuantity.value = fullPriceQty
+        isModalOpen.value = true
+        return
+      }
+    }
+
     cartStore.addItem(props.product, quantity.value)
     alert(`${props.product.name} ${quantity.value}개를 장바구니에 담았습니다!`)
     quantity.value = 1
@@ -41,6 +69,41 @@ const addToCart = () => {
       alert(error.message)
     }
   }
+}
+
+const handleModalConfirm = () => {
+  try {
+    let finalQuantity = pendingQuantity.value
+
+    if (modalType.value === 'additional-free') {
+      finalQuantity += modalQuantity.value
+    }
+
+    cartStore.addItem(props.product, finalQuantity)
+    alert(`${props.product.name} ${finalQuantity}개를 장바구니에 담았습니다!`)
+    quantity.value = 1
+    isModalOpen.value = false
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+    }
+    isModalOpen.value = false
+  }
+}
+
+const handleModalCancel = () => {
+  if (modalType.value === 'additional-free') {
+    try {
+      cartStore.addItem(props.product, pendingQuantity.value)
+      alert(`${props.product.name} ${pendingQuantity.value}개를 장바구니에 담았습니다!`)
+      quantity.value = 1
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    }
+  }
+  isModalOpen.value = false
 }
 </script>
 
@@ -69,6 +132,15 @@ const addToCart = () => {
       <span v-else class="sold-out">품절</span>
     </td>
   </tr>
+
+  <PromotionConfirmModal
+    :isOpen="isModalOpen"
+    :type="modalType"
+    :productName="product.name"
+    :quantity="modalQuantity"
+    @confirm="handleModalConfirm"
+    @cancel="handleModalCancel"
+  />
 </template>
 
 <style scoped>

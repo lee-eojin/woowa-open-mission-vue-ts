@@ -77,4 +77,8 @@ export class Cart {
   calculateFullPriceQuantity(product: Product, quantity: number): number {
     return this.promotionPolicy.calculateFullPriceQuantity(product, quantity)
   }
+
+  findApplicablePromotion(product: Product): Promotion | null {
+    return this.promotionPolicy.findApplicablePromotion(product)
+  }
 }
