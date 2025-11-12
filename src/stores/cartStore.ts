@@ -10,6 +10,7 @@ import { ERROR_MESSAGES } from '@/constants/errorMessages'
 export const useCartStore = defineStore('cart', () => {
   const cart = ref<Cart | null>(null)
   const inventory = shallowRef<Inventory | null>(null)
+  const useMembership = ref(false)
 
   const initialize = (products: Product[], promotions: Promotion[]) => {
     inventory.value = new Inventory(products)
@@ -48,6 +49,10 @@ export const useCartStore = defineStore('cart', () => {
     cart.value.clear()
   }
 
+  const setMembership = (value: boolean) => {
+    useMembership.value = value
+  }
+
   const items = computed<CartItem[]>(() => {
     if (!cart.value) return []
     return cart.value.getItems()
@@ -63,9 +68,14 @@ export const useCartStore = defineStore('cart', () => {
     return cart.value.getPromotionDiscount()
   })
 
+  const membershipDiscount = computed<number>(() => {
+    if (!cart.value) return 0
+    return cart.value.getMembershipDiscount(useMembership.value)
+  })
+
   const finalPrice = computed<number>(() => {
     if (!cart.value) return 0
-    return cart.value.getFinalPrice()
+    return cart.value.getFinalPrice(useMembership.value)
   })
 
   const isEmpty = computed<boolean>(() => {
@@ -103,11 +113,14 @@ export const useCartStore = defineStore('cart', () => {
     removeItem,
     updateQuantity,
     clear,
+    setMembership,
     items,
     totalPrice,
     promotionDiscount,
+    membershipDiscount,
     finalPrice,
     isEmpty,
+    useMembership,
     canGetAdditionalFreeItem,
     calculateFullPriceQuantity,
     findApplicablePromotion
