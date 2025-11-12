@@ -14,6 +14,11 @@ const removeItem = (productName: string) => {
     cartStore.removeItem(productName)
   }
 }
+
+const handleMembershipChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  cartStore.setMembership(target.checked)
+}
 </script>
 
 <template>
@@ -47,6 +52,23 @@ const removeItem = (productName: string) => {
           <span>{{ UI_MESSAGES.CART.PROMOTION_DISCOUNT_LABEL }}</span>
           <span class="summary-value">-{{ formatPrice(cartStore.promotionDiscount) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
         </div>
+
+        <div class="membership-section">
+          <label class="membership-checkbox">
+            <input
+              type="checkbox"
+              :checked="cartStore.useMembership"
+              @change="handleMembershipChange"
+            />
+            <span>{{ UI_MESSAGES.CART.MEMBERSHIP_LABEL }}</span>
+          </label>
+        </div>
+
+        <div v-if="cartStore.useMembership && cartStore.membershipDiscount > 0" class="summary-row discount">
+          <span>{{ UI_MESSAGES.CART.MEMBERSHIP_DISCOUNT_LABEL }}</span>
+          <span class="summary-value">-{{ formatPrice(cartStore.membershipDiscount) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+        </div>
+
         <div class="summary-row final">
           <span>{{ UI_MESSAGES.CART.FINAL_PRICE_LABEL }}</span>
           <span class="summary-value">{{ formatPrice(cartStore.finalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
@@ -144,6 +166,29 @@ h2 {
   border-top: 2px solid #eee;
   padding-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.membership-section {
+  padding: 0.75rem 0;
+  margin: 0.5rem 0;
+}
+
+.membership-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.membership-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.membership-checkbox span {
+  user-select: none;
 }
 
 .summary-row {

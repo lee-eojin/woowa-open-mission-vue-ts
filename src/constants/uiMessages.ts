@@ -32,6 +32,8 @@ export const UI_MESSAGES = {
       `${productName}을(를) 장바구니에서 제거하시겠습니까?`,
     TOTAL_PRICE_LABEL: '총 금액',
     PROMOTION_DISCOUNT_LABEL: '프로모션 할인',
+    MEMBERSHIP_LABEL: '멤버십 할인 적용',
+    MEMBERSHIP_DISCOUNT_LABEL: '멤버십 할인',
     FINAL_PRICE_LABEL: '최종 금액',
     REMOVE_BUTTON_TEXT: '삭제',
     CHECKOUT_BUTTON_TEXT: '결제하기'
