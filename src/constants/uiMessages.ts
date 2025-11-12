@@ -37,5 +37,19 @@ export const UI_MESSAGES = {
     FINAL_PRICE_LABEL: '최종 금액',
     REMOVE_BUTTON_TEXT: '삭제',
     CHECKOUT_BUTTON_TEXT: '결제하기'
+  },
+  RECEIPT: {
+    RECEIPT_TITLE: '영수증',
+    STORE_HEADER: 'W 편의점',
+    PURCHASE_SECTION_TITLE: '구매 내역',
+    FREE_ITEM_SECTION_TITLE: '증정',
+    PRODUCT_NAME_LABEL: '상품명',
+    QUANTITY_LABEL: '수량',
+    AMOUNT_LABEL: '금액',
+    TOTAL_QUANTITY_LABEL: '총구매액',
+    PROMOTION_DISCOUNT_LABEL: '행사할인',
+    MEMBERSHIP_DISCOUNT_LABEL: '멤버십할인',
+    FINAL_AMOUNT_LABEL: '내실돈',
+    CONFIRM_BUTTON_TEXT: '확인'
   }
 } as const
