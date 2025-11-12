@@ -12,6 +12,10 @@ export const CONSTANTS = {
       EMPTY_LENGTH: 0,
     },
   },
+  MEMBERSHIP: {
+    DISCOUNT_RATE: 0.3,
+    MAX_DISCOUNT_AMOUNT: 8000,
+  },
   CONFIG: {
     DATA_PATH: {
       PRODUCTS_FILE: '/data/products.md',

@@ -4,6 +4,7 @@ import { Inventory } from './Inventory'
 import { CartItem } from './CartItem'
 import { PromotionPolicy } from './PromotionPolicy'
 import { ERROR_MESSAGES } from '@/constants/errorMessages'
+import { CONSTANTS } from '@/constants/constants'
 
 export class Cart {
   private items: Map<string, CartItem>
@@ -58,8 +59,19 @@ export class Cart {
     }, 0)
   }
 
-  getFinalPrice(): number {
-    return this.getTotalPrice() - this.getPromotionDiscount()
+  getMembershipDiscount(useMembership: boolean): number {
+    if (!useMembership) {
+      return 0
+    }
+
+    const nonPromotionAmount = this.getTotalPrice() - this.getPromotionDiscount()
+    const discount = nonPromotionAmount * CONSTANTS.MEMBERSHIP.DISCOUNT_RATE
+
+    return Math.min(discount, CONSTANTS.MEMBERSHIP.MAX_DISCOUNT_AMOUNT)
+  }
+
+  getFinalPrice(useMembership: boolean = false): number {
+    return this.getTotalPrice() - this.getPromotionDiscount() - this.getMembershipDiscount(useMembership)
   }
 
   isEmpty(): boolean {
