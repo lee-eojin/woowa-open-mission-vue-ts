@@ -59,6 +59,27 @@ export class Cart {
     }, 0)
   }
 
+  getFreeItems(): { productName: string; quantity: number }[] {
+    const freeItems: { productName: string; quantity: number }[] = []
+
+    this.getItems().forEach((item) => {
+      if (!item.promotion) return
+
+      const setQuantity = item.promotion.getTotalQuantity()
+      const sets = Math.floor(item.quantity / setQuantity)
+      const freeQuantity = sets * item.promotion.get
+
+      if (freeQuantity > 0) {
+        freeItems.push({
+          productName: item.product.name,
+          quantity: freeQuantity
+        })
+      }
+    })
+
+    return freeItems
+  }
+
   getMembershipDiscount(useMembership: boolean): number {
     if (!useMembership) {
       return 0
