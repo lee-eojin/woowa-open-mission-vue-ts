@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
+import ReceiptModal from './ReceiptModal.vue'
 import { UI_MESSAGES } from '@/constants/uiMessages'
 import { CONSTANTS } from '@/constants/constants'
 
 const cartStore = useCartStore()
+const isReceiptOpen = ref(false)
 
 const formatPrice = (price: number): string => {
   return price.toLocaleString(CONSTANTS.CONFIG.LOCALE.DEFAULT_LOCALE)
@@ -18,6 +21,20 @@ const removeItem = (productName: string) => {
 const handleMembershipChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   cartStore.setMembership(target.checked)
+}
+
+const handleCheckout = () => {
+  if (cartStore.isEmpty) {
+    alert('장바구니가 비어있습니다.')
+    return
+  }
+  isReceiptOpen.value = true
+}
+
+const handleReceiptClose = () => {
+  isReceiptOpen.value = false
+  cartStore.clear()
+  cartStore.setMembership(false)
 }
 </script>
 
@@ -75,9 +92,13 @@ const handleMembershipChange = (event: Event) => {
         </div>
       </div>
 
-      <button class="checkout-button">{{ UI_MESSAGES.CART.CHECKOUT_BUTTON_TEXT }}</button>
+      <button @click="handleCheckout" class="checkout-button">
+        {{ UI_MESSAGES.CART.CHECKOUT_BUTTON_TEXT }}
+      </button>
     </div>
   </div>
+
+  <ReceiptModal :isOpen="isReceiptOpen" @close="handleReceiptClose" />
 </template>
 
 <style scoped>
