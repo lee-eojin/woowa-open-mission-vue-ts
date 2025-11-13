@@ -32,6 +32,7 @@ const handleCheckout = () => {
 }
 
 const handleReceiptClose = () => {
+  cartStore.checkout()
   isReceiptOpen.value = false
   cartStore.clear()
   cartStore.setMembership(false)

@@ -53,6 +53,14 @@ export const useCartStore = defineStore('cart', () => {
     useMembership.value = value
   }
 
+  const checkout = () => {
+    if (!cart.value) {
+      throw new Error(ERROR_MESSAGES.STORE.CART_NOT_INITIALIZED)
+    }
+
+    cart.value.checkout()
+  }
+
   const items = computed<CartItem[]>(() => {
     if (!cart.value) return []
     return cart.value.getItems()
@@ -124,6 +132,7 @@ export const useCartStore = defineStore('cart', () => {
     updateQuantity,
     clear,
     setMembership,
+    checkout,
     items,
     totalPrice,
     promotionDiscount,

@@ -103,6 +103,12 @@ export class Cart {
     this.items.clear()
   }
 
+  checkout(): void {
+    this.getItems().forEach((item) => {
+      this.inventory.decreaseStock(item.product.name, item.quantity, item.promotion)
+    })
+  }
+
   canGetAdditionalFreeItem(product: Product, quantity: number): boolean {
     return this.promotionPolicy.canGetAdditionalFreeItem(product, quantity)
   }
