@@ -3,8 +3,8 @@ import { Promotion } from './Promotion'
 import { ERROR_MESSAGES } from '@/constants/errorMessages'
 
 export class Inventory {
-  private readonly products: Product[]
-  private readonly productMap: Map<string, Product[]>
+  private products: Product[]
+  private productMap: Map<string, Product[]>
 
   constructor(products: Product[]) {
     this.products = products
@@ -74,5 +74,48 @@ export class Inventory {
 
   exists(name: string): boolean {
     return this.productMap.has(name)
+  }
+
+  decreaseStock(productName: string, quantity: number, promotion: Promotion | null): void {
+    let remaining = quantity
+
+    if (promotion) {
+      const promoIndex = this.products.findIndex(p =>
+        p.name === productName && p.hasPromotion() && p.promotion === promotion.name
+      )
+
+      if (promoIndex !== -1 && this.products[promoIndex]) {
+        const promoProduct = this.products[promoIndex]
+        const deductAmount = Math.min(remaining, promoProduct.quantity)
+
+        this.products[promoIndex] = new Product(
+          promoProduct.name,
+          promoProduct.price,
+          promoProduct.quantity - deductAmount,
+          promoProduct.promotion
+        )
+
+        remaining -= deductAmount
+      }
+    }
+
+    if (remaining > 0) {
+      const normalIndex = this.products.findIndex(p =>
+        p.name === productName && !p.hasPromotion()
+      )
+
+      if (normalIndex !== -1 && this.products[normalIndex]) {
+        const normalProduct = this.products[normalIndex]
+
+        this.products[normalIndex] = new Product(
+          normalProduct.name,
+          normalProduct.price,
+          normalProduct.quantity - remaining,
+          normalProduct.promotion
+        )
+      }
+    }
+
+    this.productMap = this.groupByName(this.products)
   }
 }
