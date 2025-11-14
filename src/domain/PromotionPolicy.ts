@@ -12,7 +12,7 @@ export class PromotionPolicy {
     if (!product.promotion) return null
 
     return this.promotions.find(
-      p => p.name === product.promotion && p.isActive()
+      promotion => promotion.name === product.promotion && promotion.isActive()
     ) || null
   }
 
