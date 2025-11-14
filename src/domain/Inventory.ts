@@ -29,11 +29,11 @@ export class Inventory {
 
   getPromotionStock(name: string, promotions: Promotion[]): number {
     const products = this.findByName(name)
-    const activePromotions = promotions.filter(p => p.isActive())
-    const activePromotionNames = new Set(activePromotions.map(p => p.name))
+    const activePromotions = promotions.filter(promotion => promotion.isActive())
+    const activePromotionNames = new Set(activePromotions.map(promotion => promotion.name))
 
-    const promotionProduct = products.find(p =>
-      p.hasPromotion() && activePromotionNames.has(p.promotion!)
+    const promotionProduct = products.find(product =>
+      product.hasPromotion() && activePromotionNames.has(product.promotion!)
     )
 
     if (!promotionProduct) {
@@ -45,7 +45,7 @@ export class Inventory {
 
   getNormalStock(name: string): number {
     const products = this.findByName(name)
-    const normalProduct = products.find(p => !p.hasPromotion())
+    const normalProduct = products.find(product => !product.hasPromotion())
 
     if (!normalProduct) {
       return 0
@@ -80,42 +80,77 @@ export class Inventory {
     let remaining = quantity
 
     if (promotion) {
-      const promoIndex = this.products.findIndex(p =>
-        p.name === productName && p.hasPromotion() && p.promotion === promotion.name
-      )
-
-      if (promoIndex !== -1 && this.products[promoIndex]) {
-        const promoProduct = this.products[promoIndex]
-        const deductAmount = Math.min(remaining, promoProduct.quantity)
-
-        this.products[promoIndex] = new Product(
-          promoProduct.name,
-          promoProduct.price,
-          promoProduct.quantity - deductAmount,
-          promoProduct.promotion
-        )
-
-        remaining -= deductAmount
-      }
+      remaining = this.decreasePromotionStock(productName, remaining, promotion)
     }
 
     if (remaining > 0) {
-      const normalIndex = this.products.findIndex(p =>
-        p.name === productName && !p.hasPromotion()
-      )
-
-      if (normalIndex !== -1 && this.products[normalIndex]) {
-        const normalProduct = this.products[normalIndex]
-
-        this.products[normalIndex] = new Product(
-          normalProduct.name,
-          normalProduct.price,
-          normalProduct.quantity - remaining,
-          normalProduct.promotion
-        )
-      }
+      this.decreaseNormalStock(productName, remaining)
     }
 
     this.productMap = this.groupByName(this.products)
+  }
+
+  private decreasePromotionStock(productName: string, quantity: number, promotion: Promotion): number {
+    const promoIndex = this.findPromotionProductIndex(productName, promotion)
+
+    if (promoIndex === -1) {
+      return quantity
+    }
+
+    const promoProduct = this.products[promoIndex]
+    if (!promoProduct) {
+      return quantity
+    }
+
+    const deductAmount = Math.min(quantity, promoProduct.quantity)
+
+    this.updateProductQuantity(promoIndex, promoProduct.quantity - deductAmount)
+
+    return quantity - deductAmount
+  }
+
+  private decreaseNormalStock(productName: string, quantity: number): void {
+    const normalIndex = this.findNormalProductIndex(productName)
+
+    if (normalIndex === -1) {
+      return
+    }
+
+    const normalProduct = this.products[normalIndex]
+    if (!normalProduct) {
+      return
+    }
+
+    this.updateProductQuantity(normalIndex, normalProduct.quantity - quantity)
+  }
+
+  private findPromotionProductIndex(productName: string, promotion: Promotion): number {
+    const index = this.products.findIndex(product =>
+      product.name === productName && product.hasPromotion() && product.promotion === promotion.name
+    )
+
+    return (index !== -1 && this.products[index]) ? index : -1
+  }
+
+  private findNormalProductIndex(productName: string): number {
+    const index = this.products.findIndex(product =>
+      product.name === productName && !product.hasPromotion()
+    )
+
+    return (index !== -1 && this.products[index]) ? index : -1
+  }
+
+  private updateProductQuantity(index: number, newQuantity: number): void {
+    const product = this.products[index]
+    if (!product) {
+      return
+    }
+
+    this.products[index] = new Product(
+      product.name,
+      product.price,
+      newQuantity,
+      product.promotion
+    )
   }
 }
