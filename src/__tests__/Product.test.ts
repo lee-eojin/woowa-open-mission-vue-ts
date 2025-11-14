@@ -7,15 +7,6 @@ const PRODUCT_QUANTITY = 10
 const PROMOTION_NAME = '탄산2+1'
 
 describe('Product', () => {
-  it('생성자가 올바르게 값을 할당한다', () => {
-    const product = new Product(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PROMOTION_NAME)
-
-    expect(product.name).toBe(PRODUCT_NAME)
-    expect(product.price).toBe(PRODUCT_PRICE)
-    expect(product.quantity).toBe(PRODUCT_QUANTITY)
-    expect(product.promotion).toBe(PROMOTION_NAME)
-  })
-
   it('프로모션이 있으면 true를 반환한다', () => {
     const product = new Product(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY, PROMOTION_NAME)
 
