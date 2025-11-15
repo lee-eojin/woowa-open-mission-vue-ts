@@ -99,7 +99,7 @@ describe('Inventory', () => {
   })
 
   it('프로모션 재고를 우선 차감한다', () => {
-    const promotion = testPromotions[0]
+    const promotion = testPromotions[0] as Promotion
 
     testInventory.decreaseStock(PRODUCT_NAME, 7, promotion)
 
@@ -108,7 +108,7 @@ describe('Inventory', () => {
   })
 
   it('프로모션 재고가 부족하면 일반 재고를 차감한다', () => {
-    const promotion = testPromotions[0]
+    const promotion = testPromotions[0] as Promotion
 
     testInventory.decreaseStock(PRODUCT_NAME, 15, promotion)
 
