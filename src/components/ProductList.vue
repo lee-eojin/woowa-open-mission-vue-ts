@@ -8,20 +8,16 @@ import { UI_MESSAGES } from '@/constants/uiMessages'
 const props = defineProps({
   products: {
     type: Array as PropType<Product[]>,
-    required: true
+    required: true,
   },
   promotions: {
     type: Array as PropType<Promotion[]>,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const activePromotionNames = computed(() => {
-  return new Set(
-    props.promotions
-      .filter(p => p.isActive())
-      .map(p => p.name)
-  )
+  return new Set(props.promotions.filter((p) => p.isActive()).map((p) => p.name))
 })
 
 const isPromotionActive = (product: Product): boolean => {
@@ -43,7 +39,7 @@ const isPromotionActive = (product: Product): boolean => {
           <th>가격</th>
           <th>재고</th>
           <th>프로모션</th>
-          <th>액션</th>
+          <th>수량</th>
         </tr>
       </thead>
       <tbody>
@@ -88,5 +84,22 @@ th {
   text-align: left;
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+th:nth-child(2) {
+  text-align: right;
+  padding-right: 2rem;
+}
+
+th:nth-child(3) {
+  text-align: right;
+}
+
+th:nth-child(4) {
+  text-align: center;
+}
+
+th:nth-child(5) {
+  text-align: center;
 }
 </style>

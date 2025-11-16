@@ -52,11 +52,17 @@ const handleReceiptClose = () => {
         <div v-for="item in cartStore.items" :key="item.product.name" class="cart-item">
           <div class="item-info">
             <span class="item-name">{{ item.product.name }}</span>
-            <span class="item-quantity">{{ item.quantity }}{{ UI_MESSAGES.COMMON.QUANTITY_UNIT }}</span>
+            <span class="item-quantity"
+              >{{ item.quantity }}{{ UI_MESSAGES.COMMON.QUANTITY_UNIT }}</span
+            >
           </div>
           <div class="item-actions">
-            <span class="item-price">{{ formatPrice(item.getTotalPrice()) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
-            <button @click="removeItem(item.product.name)" class="remove-button">{{ UI_MESSAGES.CART.REMOVE_BUTTON_TEXT }}</button>
+            <span class="item-price"
+              >{{ formatPrice(item.getTotalPrice()) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span
+            >
+            <button @click="removeItem(item.product.name)" class="remove-button">
+              {{ UI_MESSAGES.CART.REMOVE_BUTTON_TEXT }}
+            </button>
           </div>
         </div>
       </div>
@@ -64,11 +70,16 @@ const handleReceiptClose = () => {
       <div class="cart-summary-info">
         <div class="summary-row">
           <span>{{ UI_MESSAGES.CART.TOTAL_PRICE_LABEL }}</span>
-          <span class="summary-value">{{ formatPrice(cartStore.totalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+          <span class="summary-value"
+            >{{ formatPrice(cartStore.totalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span
+          >
         </div>
         <div v-if="cartStore.promotionDiscount > 0" class="summary-row discount">
           <span>{{ UI_MESSAGES.CART.PROMOTION_DISCOUNT_LABEL }}</span>
-          <span class="summary-value">-{{ formatPrice(cartStore.promotionDiscount) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+          <span class="summary-value"
+            >-{{ formatPrice(cartStore.promotionDiscount)
+            }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span
+          >
         </div>
 
         <div class="membership-section">
@@ -82,14 +93,22 @@ const handleReceiptClose = () => {
           </label>
         </div>
 
-        <div v-if="cartStore.useMembership && cartStore.membershipDiscount > 0" class="summary-row discount">
+        <div
+          v-if="cartStore.useMembership && cartStore.membershipDiscount > 0"
+          class="summary-row discount"
+        >
           <span>{{ UI_MESSAGES.CART.MEMBERSHIP_DISCOUNT_LABEL }}</span>
-          <span class="summary-value">-{{ formatPrice(cartStore.membershipDiscount) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+          <span class="summary-value"
+            >-{{ formatPrice(cartStore.membershipDiscount)
+            }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span
+          >
         </div>
 
         <div class="summary-row final">
           <span>{{ UI_MESSAGES.CART.FINAL_PRICE_LABEL }}</span>
-          <span class="summary-value">{{ formatPrice(cartStore.finalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span>
+          <span class="summary-value"
+            >{{ formatPrice(cartStore.finalPrice) }}{{ UI_MESSAGES.COMMON.CURRENCY_UNIT }}</span
+          >
         </div>
       </div>
 
@@ -108,8 +127,8 @@ const handleReceiptClose = () => {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 4rem auto 0;
 }
 
 h2 {
@@ -123,7 +142,7 @@ h2 {
 .empty-cart {
   text-align: center;
   padding: 2rem;
-  color: #999;
+  color: #666;
 }
 
 .cart-items {
@@ -155,7 +174,7 @@ h2 {
 
 .item-quantity {
   font-size: 0.9rem;
-  color: #666;
+  color: #555;
 }
 
 .item-actions {
@@ -201,9 +220,10 @@ h2 {
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.95rem;
+  color: #2c3e50;
 }
 
-.membership-checkbox input[type="checkbox"] {
+.membership-checkbox input[type='checkbox'] {
   width: 18px;
   height: 18px;
   cursor: pointer;
@@ -218,6 +238,7 @@ h2 {
   justify-content: space-between;
   padding: 0.5rem 0;
   font-size: 0.95rem;
+  color: #2c3e50;
 }
 
 .summary-row.discount {

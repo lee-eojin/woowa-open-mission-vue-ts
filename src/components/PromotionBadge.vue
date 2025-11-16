@@ -26,6 +26,6 @@ defineProps<Props>()
 }
 
 .no-promotion {
-  color: #ccc;
+  color: #999;
 }
 </style>

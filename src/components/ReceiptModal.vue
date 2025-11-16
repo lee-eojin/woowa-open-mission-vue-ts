@@ -100,6 +100,7 @@ const handleConfirm = () => {
 <style scoped>
 .receipt-content {
   font-family: 'Courier New', monospace;
+  color: #2c3e50;
 }
 
 .receipt-header {
@@ -113,6 +114,7 @@ const handleConfirm = () => {
   margin: 0;
   font-size: 1.5rem;
   font-weight: bold;
+  color: #2c3e50;
 }
 
 .receipt-section {
@@ -126,6 +128,7 @@ const handleConfirm = () => {
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
+  color: #2c3e50;
 }
 
 .receipt-table {
@@ -138,11 +141,13 @@ const handleConfirm = () => {
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
   font-size: 0.9rem;
+  color: #2c3e50;
 }
 
 .receipt-table tbody td {
   padding: 0.5rem;
   font-size: 0.9rem;
+  color: #2c3e50;
 }
 
 .receipt-table tbody td:nth-child(2),
@@ -164,6 +169,7 @@ const handleConfirm = () => {
   gap: 1rem;
   padding: 0.5rem 0;
   font-size: 0.95rem;
+  color: #2c3e50;
 }
 
 .summary-row span:nth-child(2),
@@ -177,6 +183,7 @@ const handleConfirm = () => {
   border-top: 1px solid #333;
   margin-top: 0.5rem;
   padding-top: 1rem;
+  color: #2c3e50;
 }
 
 .confirm-button {

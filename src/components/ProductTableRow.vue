@@ -160,7 +160,7 @@ tr:last-child {
 }
 
 tr.out-of-stock {
-  color: #999;
+  color: #666;
   background-color: #f5f5f5;
 }
 
@@ -176,10 +176,12 @@ td {
 .product-price {
   color: #e74c3c;
   font-weight: 600;
+  text-align: right;
 }
 
 .product-quantity {
-  color: #555;
+  color: #2c3e50;
+  text-align: right;
 }
 
 .product-promotion {
@@ -189,7 +191,7 @@ td {
 .out-of-stock .product-name,
 .out-of-stock .product-price,
 .out-of-stock .product-quantity {
-  color: #999;
+  color: #666;
 }
 
 .product-actions {
