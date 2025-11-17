@@ -2,14 +2,16 @@
 
 > 우아한테크코스 8기 프리코스 오픈미션
 
+> 프로젝트 개발 과정과 문제 해결 및 학습 내용은 [devlog](./devlog) 폴더에서 확인할 수 있다.
+
 ## Table of Contents
 
 1. [프로젝트 소개](#프로젝트-소개)
 2. [기술 스택 및 선정 이유](#기술-스택-및-선정-이유)
-3. [주요 기능](#주요-기능)
-4. [기능 예시 (원본 미션 기준)](#기능-예시-원본-미션-기준)
-5. [시작하기](#시작하기)
-6. [개발 로그](#개발-로그)
+3. [프로젝트 구조](#프로젝트-구조)
+4. [주요 기능](#주요-기능)
+5. [기능 예시 (원본 미션 기준)](#기능-예시-원본-미션-기준)
+6. [시작하기](#시작하기)
 
 ## 프로젝트 소개
 
@@ -43,6 +45,53 @@ Vue 3 프로젝트 생성 시 함께 선택한 공식 생태계 도구들이다.
 - Vite: ESM 기반 빠른 개발 서버(1초 이내 구동)와 HMR로 즉각적인 피드백 제공
 - Pinia: Vue 3 공식 상태 관리 라이브러리. TypeScript 타입 추론이 완벽하게 지원되며, 장바구니와 재고 같은 전역 상태를 간결하게 관리
 - Vitest: Vite 기반 테스트 도구로 별도 설정 없이 빠른 테스트 실행 가능. Jest API와 호환되어 학습 부담이 적음
+
+## 프로젝트 구조
+
+```
+woowa-open-mission-vue-ts/
+├── src/
+│   ├── __tests__/                            # 테스트 파일
+│   │   ├── Product.test.ts
+│   │   ├── Promotion.test.ts
+│   │   ├── Cart.test.ts
+│   │   ├── Inventory.test.ts
+│   │   └── PromotionPolicy.test.ts
+│   ├── assets/                               # 스타일시트
+│   │   └── main.css
+│   ├── components/                           # Vue 컴포넌트
+│   │   ├── BaseModal.vue                     # 기본 모달
+│   │   ├── CartSummary.vue                   # 장바구니 요약
+│   │   ├── ProductList.vue                   # 상품 목록
+│   │   ├── ProductTableRow.vue               # 상품 테이블 행
+│   │   ├── PromotionBadge.vue                # 프로모션 배지
+│   │   ├── PromotionConfirmModal.vue         # 프로모션 확인 모달
+│   │   └── ReceiptModal.vue                  # 영수증 모달
+│   ├── constants/                            # 상수 정의
+│   │   ├── constants.ts                      # 비즈니스 상수
+│   │   ├── errorMessages.ts                  # 에러 메시지
+│   │   └── uiMessages.ts                     # UI 메시지
+│   ├── domain/                               # 도메인 클래스 (비즈니스 로직)
+│   │   ├── Product.ts                        # 상품
+│   │   ├── Promotion.ts                      # 프로모션
+│   │   ├── CartItem.ts                       # 장바구니 항목
+│   │   ├── Cart.ts                           # 장바구니
+│   │   ├── Inventory.ts                      # 재고 관리
+│   │   └── PromotionPolicy.ts                # 프로모션 정책
+│   ├── stores/                               # Pinia 상태 관리
+│   │   └── cartStore.ts                      # 장바구니 스토어
+│   ├── utils/                                # 유틸리티
+│   │   ├── csvParser.ts                      # CSV 파서
+│   │   ├── productParser.ts                  # 상품 파서
+│   │   └── promotionParser.ts                # 프로모션 파서
+│   ├── App.vue                               # 루트 컴포넌트
+│   └── main.ts                               # 진입점
+├── public/
+│   └── data/                                 # 데이터 파일
+│       ├── products.md                       # 상품 데이터 (CSV)
+│       └── promotions.md                     # 프로모션 데이터 (CSV)
+└── devlog/                                   # 개발 기록
+```
 
 ## 주요 기능
 
@@ -202,7 +251,3 @@ npm run build
 ```bash
 npm run test:unit
 ```
-
-## 개발 로그
-
-프로젝트 진행 과정과 학습 내용은 [devlog](./devlog) 폴더에서 확인할 수 있다.
