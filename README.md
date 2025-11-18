@@ -194,7 +194,7 @@ Y
 
 ### 3. 영수증 출력
 
-<img src="./devlog/images/sample-02.jpeg" width="500">
+<img src="./devlog/images/sample-02.jpeg" width="300">
 
 ```
 ===========W 편의점=============
@@ -214,7 +214,7 @@ Y
 
 ### 4. 프로모션 안내
 
-<img src="./devlog/images/sample-0.jpeg" width="500">
+<img src="./devlog/images/sample-03.jpeg" width="300">
 
 ```
 구매하실 상품명과 수량을 입력해 주세요. (예: [감자칩-1], [오렌지주스-1])
