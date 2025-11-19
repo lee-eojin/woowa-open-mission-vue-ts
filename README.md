@@ -2,7 +2,7 @@
 
 > 우아한테크코스 8기 프리코스 오픈미션
 
-> 프로젝트 개발 과정과 문제 해결 및 학습 내용은 [devlog](./devlog) 폴더에서 확인할 수 있다.
+> 프로젝트 개발 과정과 문제 해결 및 학습 내용은 [devlog](./devlog) 폴더에서, 도메인 구조는 [domain-structure](./devlog/domain-structure.md) 폴더에서 확인할 수 있다.
 
 ## Table of Contents
 
