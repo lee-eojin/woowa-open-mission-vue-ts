@@ -14,8 +14,8 @@ const OTHER_PRODUCT_NAME = '사이다'
 const OTHER_PRODUCT_PRICE = 1500
 const OTHER_PRODUCT_STOCK = 50
 
-const PROMOTION_START_DATE = new Date('2025-01-01')
-const PROMOTION_END_DATE = new Date('2025-12-31')
+const PROMOTION_START_DATE = new Date('2026-01-01')
+const PROMOTION_END_DATE = new Date('2027-12-31')
 
 describe('Cart', () => {
   let testCart: Cart
